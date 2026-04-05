@@ -1,6 +1,9 @@
 import Link from 'next/link';
 
-const TESTIMONIALS = [
+type Category = 'charcuterie' | 'fromages';
+type T = { quote: string; author: string; location: string; category: Category };
+
+const TESTIMONIALS: T[] = [
   {
     quote: 'Le saucisson de montagne est une révélation. J\'en commande tous les mois depuis Toulouse — jamais déçu.',
     author: 'Mathilde R.',
@@ -68,8 +71,6 @@ function Stars() {
   );
 }
 
-type Category = keyof typeof CAT;
-type T = { quote: string; author: string; location: string; category: Category };
 
 function TestiCard({ quote, author, location, category, dupe }: T & { dupe?: boolean }) {
   const { label, href } = CAT[category];
