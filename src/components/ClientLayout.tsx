@@ -9,7 +9,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
   return (
     <>
-      {children}
+      <main>{children}</main>
       <CartSlideOver isOpen={isCartOpen} onClose={closeCart} />
     </>
   );

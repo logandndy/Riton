@@ -4,7 +4,7 @@ import { persist } from 'zustand/middleware';
 export interface Product {
   id: string;
   name: string;
-  description: string;
+  description?: string | null;
   price: number;
   images: string[];
   metadata: Record<string, string>;

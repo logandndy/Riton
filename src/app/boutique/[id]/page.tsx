@@ -1,15 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { getProductById, Product } from '../../../lib/stripe';
 import { useCartStore } from '../../../store/useCartStore';
-import CartSlideOver from '../../../components/CartSlideOver';
 
 export default function ProductPage() {
   const { id } = useParams();
   const [product, setProduct] = useState<Product | null>(null);
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const addItem = useCartStore(state => state.addItem);
 
   useEffect(() => {
@@ -25,7 +24,6 @@ export default function ProductPage() {
   const handleAddToCart = () => {
     if (product) {
       addItem(product);
-      setIsCartOpen(true);
     }
   };
 
@@ -37,18 +35,17 @@ export default function ProductPage() {
     <div className="product-detail">
       <div className="product-images">
         {product.images.map((img, index) => (
-          <img key={index} src={img} alt={product.name} />
+          <Image key={index} src={img} alt={product.name} width={400} height={400} />
         ))}
       </div>
       <div className="product-info">
         <h1>{product.name}</h1>
-        <p>{product.description}</p>
+        {product.description && <p>{product.description}</p>}
         <p className="price">{product.price} €</p>
         <button onClick={handleAddToCart} className="add-to-cart">
           Ajouter au panier
         </button>
       </div>
-      <CartSlideOver isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </div>
   );
 }

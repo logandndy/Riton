@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useCartStore } from '../store/useCartStore';
 
@@ -30,7 +31,9 @@ const CartSlideOver = ({ isOpen, onClose }: CartSlideOverProps) => {
         <div className="cart-items">
           {items.slice(-1).map(item => (
             <div key={item.product.id} className="cart-item">
-              <img src={item.product.images[0]} alt={item.product.name} />
+            {item.product.images && item.product.images[0] && (
+              <Image src={item.product.images[0]} alt={item.product.name} width={50} height={50} />
+            )}
               <div>
                 <h3>{item.product.name}</h3>
                 <p>Quantité: {item.quantity}</p>

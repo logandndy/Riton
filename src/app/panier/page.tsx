@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useCartStore } from '../../store/useCartStore';
 
 export default function Panier() {
@@ -28,7 +29,9 @@ export default function Panier() {
       <div className="cart-items">
         {items.map(item => (
           <div key={item.product.id} className="cart-item">
-            <img src={item.product.images[0]} alt={item.product.name} />
+            {item.product.images && item.product.images[0] && (
+              <Image src={item.product.images[0]} alt={item.product.name} width={80} height={80} />
+            )}
             <div className="item-details">
               <h3>{item.product.name}</h3>
               <p>{item.product.price} €</p>

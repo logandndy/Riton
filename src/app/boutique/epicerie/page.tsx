@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { getProducts, getProductsByCategory, Product } from '../../../lib/stripe';
-import Filters, { FilterOptions } from '../../../components/Filters';
+import Filters, { FilterOptions } from '../../components/Filters';
 
 export default function Epicerie() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -44,9 +45,11 @@ export default function Epicerie() {
       <div className="products-grid">
         {filteredProducts.map(product => (
           <div key={product.id} className="product-card">
-            <img src={product.images[0]} alt={product.name} />
+            {product.images && product.images[0] && (
+              <Image src={product.images[0]} alt={product.name} width={250} height={200} />
+            )}
             <h3>{product.name}</h3>
-            <p>{product.description}</p>
+            {product.description && <p>{product.description}</p>}
             <p className="price">{product.price} €</p>
             <Link href={`/boutique/${product.id}`} className="product-link">
               Voir le produit
