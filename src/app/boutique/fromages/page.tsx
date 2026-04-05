@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getProducts, getProductsByCategory, Product } from '../../../lib/stripe';
-import Filters, { FilterOptions } from '../../components/Filters';
+import Filters, { FilterOptions } from '../../../components/Filters';
 
 export default function Fromages() {
   const [products, setProducts] = useState<Product[]>([]);
