@@ -5,6 +5,7 @@ import { useCartStore } from '../store/useCartStore';
 
 const Navbar = () => {
   const itemCount = useCartStore(state => state.getItemCount());
+  const openCart = useCartStore(state => state.openCart);
 
   return (
     <nav className="navbar">
@@ -20,9 +21,9 @@ const Navbar = () => {
           <li><Link href="/ou-nous-trouver">Où nous trouver</Link></li>
         </ul>
         <div className="navbar-cart">
-          <Link href="/panier">
+          <button onClick={openCart} className="cart-button">
             Panier ({itemCount})
-          </Link>
+          </button>
         </div>
       </div>
     </nav>

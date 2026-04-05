@@ -17,18 +17,22 @@ export interface CartItem {
 
 interface CartState {
   items: CartItem[];
+  isCartOpen: boolean;
   addItem: (product: Product) => void;
   removeItem: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
   getTotal: () => number;
   getItemCount: () => number;
+  openCart: () => void;
+  closeCart: () => void;
 }
 
 export const useCartStore = create<CartState>()(
   persist(
     (set, get) => ({
       items: [],
+      isCartOpen: false,
       addItem: (product) => {
         const items = get().items;
         const existingItem = items.find(item => item.product.id === product.id);
@@ -38,6 +42,7 @@ export const useCartStore = create<CartState>()(
         } else {
           set({ items: [...items, { product, quantity: 1 }] });
         }
+        set({ isCartOpen: true });
       },
       removeItem: (productId) => {
         set({ items: get().items.filter(item => item.product.id !== productId) });
@@ -61,9 +66,12 @@ export const useCartStore = create<CartState>()(
       getItemCount: () => {
         return get().items.reduce((count, item) => count + item.quantity, 0);
       },
+      openCart: () => set({ isCartOpen: true }),
+      closeCart: () => set({ isCartOpen: false }),
     }),
     {
       name: 'cart-storage',
+      partialize: (state) => ({ items: state.items }), // Ne pas persister isCartOpen
     }
   )
 );

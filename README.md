@@ -23,18 +23,21 @@ Site e-commerce pour Riton, spécialisé dans la charcuterie et les fromages art
 ## Installation
 
 1. Cloner le repo :
+
    ```bash
    git clone https://github.com/logandndy/Riton.git
    cd Riton
    ```
 
 2. Installer les dépendances :
+
    ```bash
    npm install
    ```
 
 3. Configurer les variables d'environnement :
    Créer un fichier `.env.local` avec :
+
    ```
    STRIPE_SECRET_KEY=votre_clé_secrète_stripe
    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=votre_clé_publique_stripe

@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import CartSlideOver from '../components/CartSlideOver';
+import { useCartStore } from '../store/useCartStore';
 
 export const metadata: Metadata = {
   title: 'Riton - Charcuterie et Fromages Artisanaux',
@@ -12,11 +15,16 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const isCartOpen = useCartStore(state => state.isCartOpen);
+  const closeCart = useCartStore(state => state.closeCart);
+
   return (
     <html lang="fr">
       <body>
         <Navbar />
         <main>{children}</main>
+        <Footer />
+        <CartSlideOver isOpen={isCartOpen} onClose={closeCart} />
       </body>
     </html>
   );
