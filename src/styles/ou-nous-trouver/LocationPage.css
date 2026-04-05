@@ -1,5 +1,5 @@
 /* ============================================================
-   LocationPage.css — Éditorial premium, marché typographique
+   LocationPage.css — Split-curtain reveal + éditorial premium
    lp- prefix
    ============================================================ */
 
@@ -7,177 +7,296 @@
   background: var(--color-white);
 }
 
-/* ── Market schedule ────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════
+   CURTAIN INTRO
+   ══════════════════════════════════════════════════════════════ */
 
-.lp-schedule {
-  background: var(--color-black);
-  padding-block: var(--spacing-6xl);
+/* Tall container gives scroll room for the animation */
+.lp-curtain-wrap {
+  height: 220vh;
   position: relative;
+}
+
+/* Sticky viewport — stays fixed while container scrolls */
+.lp-curtain-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 100vh; /* fallback */
+  display: flex;
+  overflow: hidden; /* clip panels as they exit sideways */
+}
+
+/* ── Background layer (revealed through the gap) ─────────── */
+
+.lp-curtain-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--color-charcoal);
   overflow: hidden;
 }
 
-/* Grain texture */
-.lp-schedule::before {
-  content: '';
+.lp-curtain-bg-img {
+  object-fit: cover;
+  object-position: center 40%;
+}
+
+.lp-curtain-bg-overlay {
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.045'/%3E%3C/svg%3E");
-  pointer-events: none;
+  background:
+    linear-gradient(135deg,
+      rgba(8,7,6,.88) 0%,
+      rgba(14,10,8,.75) 50%,
+      rgba(8,7,6,.65) 100%
+    );
 }
 
-/* Burgundy glow */
-.lp-schedule::after {
-  content: '';
+.lp-curtain-bg-text {
   position: absolute;
-  bottom: -120px; left: 50%;
-  transform: translateX(-50%);
-  width: 800px;
-  height: 300px;
-  background: radial-gradient(ellipse, rgba(139,26,47,.18), transparent 70%);
-  pointer-events: none;
-}
-
-.lp-schedule-inner {
-  max-width: var(--container-max);
-  margin-inline: auto;
-  padding-inline: var(--spacing-lg);
-  position: relative;
-  z-index: 1;
-}
-
-@media (min-width: 768px) { .lp-schedule-inner { padding-inline: var(--spacing-xl); } }
-
-.lp-schedule-header {
-  margin-bottom: var(--spacing-5xl);
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xl);
   text-align: center;
+  padding: var(--spacing-xl);
 }
 
-.lp-schedule-eyebrow {
-  display: block;
+.lp-curtain-bg-eyebrow {
   font-family: var(--font-sans);
   font-size: .62rem;
   font-weight: var(--font-weight-semibold);
   letter-spacing: .28em;
   text-transform: uppercase;
   color: var(--color-red-accent);
-  margin-bottom: var(--spacing-lg);
 }
 
-.lp-schedule-title {
+.lp-curtain-bg-title {
   font-family: var(--font-serif);
-  font-size: clamp(1.875rem, 4vw, 3rem);
+  font-size: clamp(3.5rem, 10vw, 8rem);
   font-weight: var(--font-weight-bold);
   letter-spacing: var(--letter-spacing-tight);
   color: var(--color-white);
-  line-height: 1.1;
-  margin: 0;
+  line-height: .88;
+  text-shadow:
+    0 2px 30px rgba(0,0,0,.70),
+    0 1px 6px rgba(0,0,0,.90);
+  animation: fadeIn .8s ease .2s both;
 }
 
-.lp-schedule-title em {
+.lp-curtain-bg-title em {
   font-style: italic;
   font-weight: var(--font-weight-light);
-  color: rgba(250,250,245,.55);
+  color: rgba(250,250,245,.50);
 }
 
-/* ── Schedule cards ─────────────────────────────────────────── */
+/* ── Curtain panels ─────────────────────────────────────────── */
 
-.lp-schedule-cards {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--spacing-xl);
+.lp-curtain-left,
+.lp-curtain-right {
+  position: relative;
+  width: 50%;
+  height: 100%;
+  flex-shrink: 0;
+  z-index: 2;
+  overflow: hidden;
+  will-change: transform;
 }
 
-@media (min-width: 640px) {
-  .lp-schedule-cards { grid-template-columns: 1fr 1fr; }
+/* JS drives --p from 0 → 1 as user scrolls */
+.lp-curtain-left  { transform: translateX(calc(var(--p, 0) * -100%)); }
+.lp-curtain-right { transform: translateX(calc(var(--p, 0)  * 100%)); }
+
+.lp-curtain-panel-img {
+  object-fit: cover;
+  object-position: center;
 }
 
-.lp-schedule-card {
-  border: 1px solid rgba(255,255,255,.10);
-  border-radius: var(--radius-2xl);
-  padding: var(--spacing-4xl) var(--spacing-3xl);
+/* Strong cinematic overlay */
+.lp-curtain-panel-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top,
+      rgba(8,7,6,.95) 0%,
+      rgba(8,7,6,.70) 35%,
+      rgba(8,7,6,.40) 65%,
+      rgba(8,7,6,.25) 100%
+    );
+}
+
+/* Text content — bottom of each panel */
+.lp-curtain-panel-content {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  z-index: 3;
+  padding: var(--spacing-5xl) var(--spacing-4xl);
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
-  position: relative;
-  transition: border-color var(--transition-base), transform var(--transition-base);
-  background: rgba(255,255,255,.025);
+  gap: var(--spacing-sm);
 }
 
-.lp-schedule-card:hover {
-  border-color: rgba(255,255,255,.20);
-  transform: translateY(-3px);
+/* Left: right-aligned toward center */
+.lp-curtain-left .lp-curtain-panel-content {
+  align-items: flex-end;
+  text-align: right;
 }
 
-/* Featured Saturday card */
-.lp-schedule-card--featured {
-  border-color: rgba(139,26,47,.45);
-  background: rgba(139,26,47,.07);
+/* Right: left-aligned toward center */
+.lp-curtain-right .lp-curtain-panel-content {
+  align-items: flex-start;
+  text-align: left;
 }
 
-.lp-schedule-card--featured:hover {
-  border-color: rgba(139,26,47,.70);
-}
-
-/* Red top border on featured */
-.lp-schedule-card--featured::before {
-  content: '';
-  position: absolute;
-  top: 0; left: var(--spacing-3xl); right: var(--spacing-3xl);
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--color-red), transparent);
-  border-radius: 0 0 var(--radius-full) var(--radius-full);
-}
-
-.lp-schedule-card-badge {
+.lp-curtain-badge {
   display: inline-block;
-  align-self: flex-start;
   font-family: var(--font-sans);
   font-size: .58rem;
   font-weight: var(--font-weight-semibold);
-  letter-spacing: .20em;
+  letter-spacing: .18em;
   text-transform: uppercase;
   color: var(--color-red-accent);
-  background: rgba(139,26,47,.15);
-  border: 1px solid rgba(139,26,47,.30);
+  background: rgba(139,26,47,.18);
+  border: 1px solid rgba(139,26,47,.35);
   border-radius: var(--radius-full);
-  padding: .25rem .75rem;
+  padding: .28rem .85rem;
   margin-bottom: var(--spacing-sm);
 }
 
-.lp-schedule-card-day {
+.lp-curtain-kicker {
+  font-family: var(--font-sans);
+  font-size: .65rem;
+  letter-spacing: .20em;
+  text-transform: uppercase;
+  color: rgba(250,250,245,.40);
+}
+
+.lp-curtain-day {
   font-family: var(--font-serif);
-  font-size: clamp(3rem, 8vw, 6rem);
+  font-size: clamp(3rem, 7vw, 6.5rem);
   font-weight: var(--font-weight-bold);
   letter-spacing: var(--letter-spacing-tight);
   color: var(--color-white);
-  line-height: .9;
+  line-height: .88;
+  text-shadow:
+    0 2px 20px rgba(0,0,0,.70),
+    0 1px 4px rgba(0,0,0,.90);
 }
 
-.lp-schedule-card--featured .lp-schedule-card-day {
-  color: var(--color-white);
-}
-
-.lp-schedule-card-time {
+.lp-curtain-time {
   font-family: var(--font-sans);
-  font-size: clamp(1.125rem, 3vw, 1.75rem);
+  font-size: clamp(.875rem, 2vw, 1.25rem);
   font-weight: var(--font-weight-light);
-  letter-spacing: .04em;
-  color: rgba(250,250,245,.65);
-}
-
-.lp-schedule-card--featured .lp-schedule-card-time {
+  letter-spacing: .06em;
   color: var(--color-red-accent);
+  margin-top: var(--spacing-sm);
 }
 
-.lp-schedule-card-note {
+.lp-curtain-sub {
   font-family: var(--font-sans);
-  font-size: .75rem;
+  font-size: .68rem;
+  letter-spacing: .06em;
   color: rgba(250,250,245,.30);
-  letter-spacing: .04em;
-  margin: 0;
 }
 
-/* ── Address + photo split ──────────────────────────────────── */
+/* ── Thin central divider ───────────────────────────────────── */
+
+.lp-curtain-divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(139,26,47,.55) 20%,
+    rgba(139,26,47,.55) 80%,
+    transparent 100%
+  );
+  z-index: 3;
+  /* Fade out as gap opens */
+  opacity: calc(1 - var(--p, 0) * 3);
+  pointer-events: none;
+}
+
+/* ── Scroll hint ────────────────────────────────────────────── */
+
+.lp-curtain-hint {
+  position: absolute;
+  bottom: var(--spacing-3xl);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  opacity: calc(1 - var(--p, 0) * 2);
+  pointer-events: none;
+  animation: fadeIn 1s ease 1s both;
+}
+
+.lp-curtain-hint-label {
+  font-family: var(--font-sans);
+  font-size: .58rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(250,250,245,.35);
+}
+
+.lp-curtain-hint-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(250,250,245,.30), transparent);
+  animation: scrollBounce 2.2s ease-in-out infinite;
+}
+
+/* ── Mobile: vertical split ─────────────────────────────────── */
+
+@media (max-width: 767px) {
+  .lp-curtain-sticky { flex-direction: column; }
+
+  .lp-curtain-left,
+  .lp-curtain-right {
+    width: 100%;
+    height: 50%;
+  }
+
+  .lp-curtain-left  { transform: translateY(calc(var(--p, 0) * -100%)); }
+  .lp-curtain-right { transform: translateY(calc(var(--p, 0)  * 100%)); }
+
+  .lp-curtain-divider {
+    top: 50%; bottom: auto;
+    left: 0; right: 0;
+    width: 100%; height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(139,26,47,.55) 20%,
+      rgba(139,26,47,.55) 80%,
+      transparent 100%
+    );
+  }
+
+  .lp-curtain-panel-content {
+    padding: var(--spacing-2xl) var(--spacing-lg);
+  }
+
+  .lp-curtain-left .lp-curtain-panel-content,
+  .lp-curtain-right .lp-curtain-panel-content {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ADDRESS + PHOTO SPLIT
+   ══════════════════════════════════════════════════════════════ */
 
 .lp-address {
   display: grid;
@@ -199,9 +318,7 @@
 }
 
 @media (min-width: 1024px) {
-  .lp-address-content {
-    padding: var(--spacing-6xl);
-  }
+  .lp-address-content { padding: var(--spacing-6xl); }
 }
 
 .lp-address-eyebrow {
@@ -238,7 +355,6 @@
   max-width: 46ch;
 }
 
-/* Address table */
 .lp-address-table {
   display: flex;
   flex-direction: column;
@@ -272,7 +388,6 @@
   line-height: var(--line-height-normal);
 }
 
-/* Maps CTA */
 .lp-maps-btn {
   display: inline-flex;
   align-items: center;
@@ -290,18 +405,10 @@
   transition: color var(--transition-fast), border-color var(--transition-fast);
 }
 
-.lp-maps-btn:hover {
-  color: var(--color-red);
-  border-color: var(--color-red);
-}
-
-.lp-maps-btn svg {
-  transition: transform .3s var(--ease-out-expo);
-}
-
+.lp-maps-btn:hover { color: var(--color-red); border-color: var(--color-red); }
+.lp-maps-btn svg { transition: transform .3s var(--ease-out-expo); }
 .lp-maps-btn:hover svg { transform: translate(2px, -2px); }
 
-/* Photo side */
 .lp-address-photo {
   position: relative;
   min-height: 55svh;
@@ -309,30 +416,19 @@
   background: var(--color-charcoal);
 }
 
-@media (min-width: 1024px) {
-  .lp-address-photo { min-height: unset; }
-}
+@media (min-width: 1024px) { .lp-address-photo { min-height: unset; } }
 
 .lp-address-photo-img {
   object-fit: cover;
-  object-position: center;
   transition: transform 12s ease;
 }
 
-.lp-address-photo:hover .lp-address-photo-img {
-  transform: scale(1.04);
-}
+.lp-address-photo:hover .lp-address-photo-img { transform: scale(1.04); }
 
 .lp-address-photo-overlay {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(to top,
-      rgba(6,5,4,.85) 0%,
-      rgba(6,5,4,.30) 40%,
-      rgba(6,5,4,.10) 75%,
-      transparent 100%
-    );
+  background: linear-gradient(to top, rgba(6,5,4,.80) 0%, rgba(6,5,4,.25) 45%, transparent 100%);
   z-index: 1;
 }
 
@@ -340,7 +436,6 @@
   position: absolute;
   bottom: var(--spacing-3xl);
   left: var(--spacing-3xl);
-  right: var(--spacing-3xl);
   z-index: 2;
 }
 
@@ -366,7 +461,9 @@
   color: rgba(250,250,245,.55);
 }
 
-/* ── Why visit ──────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════
+   WHY VISIT
+   ══════════════════════════════════════════════════════════════ */
 
 .lp-why {
   background: var(--color-cream);
@@ -376,7 +473,6 @@
   position: relative;
 }
 
-/* Top red line */
 .lp-why::before {
   content: '';
   position: absolute;
@@ -425,20 +521,14 @@
   color: var(--color-gray-medium);
 }
 
-/* Cards grid */
 .lp-why-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--spacing-xl);
 }
 
-@media (min-width: 768px) {
-  .lp-why-grid { grid-template-columns: repeat(3, 1fr); }
-}
-
-@media (min-width: 1200px) {
-  .lp-why-grid { grid-template-columns: repeat(5, 1fr); gap: var(--spacing-lg); }
-}
+@media (min-width: 768px)  { .lp-why-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1200px) { .lp-why-grid { grid-template-columns: repeat(5, 1fr); gap: var(--spacing-lg); } }
 
 .lp-why-card {
   background: var(--color-white);
@@ -448,10 +538,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-lg);
-  transition:
-    transform var(--transition-base),
-    box-shadow var(--transition-base),
-    border-color var(--transition-base);
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
 }
 
 .lp-why-card:hover {
@@ -470,7 +557,7 @@
   justify-content: center;
   color: var(--color-red);
   flex-shrink: 0;
-  transition: background var(--transition-fast), transform var(--transition-fast);
+  transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
 }
 
 .lp-why-card:hover .lp-why-card-icon {
@@ -496,7 +583,9 @@
   margin: 0;
 }
 
-/* ── Online CTA strip ───────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════
+   ONLINE CTA
+   ══════════════════════════════════════════════════════════════ */
 
 .lp-cta {
   position: relative;
@@ -508,10 +597,7 @@
   background: var(--color-charcoal);
 }
 
-.lp-cta-photo {
-  position: absolute;
-  inset: 0;
-}
+.lp-cta-photo { position: absolute; inset: 0; }
 
 .lp-cta-photo-img {
   object-fit: cover;
@@ -521,12 +607,7 @@
 .lp-cta-photo-overlay {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(135deg,
-      rgba(6,5,4,.88) 0%,
-      rgba(14,10,8,.78) 50%,
-      rgba(6,5,4,.65) 100%
-    );
+  background: linear-gradient(135deg, rgba(6,5,4,.88) 0%, rgba(14,10,8,.78) 50%, rgba(6,5,4,.65) 100%);
 }
 
 .lp-cta-content {
@@ -564,14 +645,14 @@
 .lp-cta-title em {
   font-style: italic;
   font-weight: var(--font-weight-light);
-  color: rgba(250,250,245,.65);
+  color: rgba(250,250,245,.60);
 }
 
 .lp-cta-sub {
   font-family: var(--font-sans);
   font-size: .78rem;
   letter-spacing: .08em;
-  color: rgba(250,250,245,.45);
+  color: rgba(250,250,245,.40);
   margin: 0;
 }
 
@@ -591,11 +672,8 @@
   text-decoration: none;
   position: relative;
   overflow: hidden;
-  transition:
-    background var(--transition-fast),
-    transform var(--transition-fast),
-    box-shadow var(--transition-fast);
   margin-top: var(--spacing-md);
+  transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .lp-cta-btn::before {
@@ -615,24 +693,17 @@
   color: #fff;
 }
 
-.lp-cta-btn:hover::before {
-  animation: shimmerSweep .55s ease forwards;
-}
+.lp-cta-btn:hover::before { animation: shimmerSweep .55s ease forwards; }
 
-.lp-cta-btn svg {
-  transition: transform .3s var(--ease-out-expo);
-}
-
+.lp-cta-btn svg { transition: transform .3s var(--ease-out-expo); }
 .lp-cta-btn:hover svg { transform: translateX(4px); }
 
 /* ── Mobile tweaks ──────────────────────────────────────────── */
 
 @media (max-width: 639px) {
-  .lp-schedule { padding-block: var(--spacing-4xl); }
-  .lp-schedule-header { margin-bottom: var(--spacing-3xl); }
   .lp-address-content { padding: var(--spacing-4xl) var(--spacing-lg); }
-  .lp-address-photo-badge { left: var(--spacing-xl); right: var(--spacing-xl); bottom: var(--spacing-xl); }
+  .lp-address-photo-badge { left: var(--spacing-xl); bottom: var(--spacing-xl); }
   .lp-why { padding-block: var(--spacing-4xl); }
-  .lp-cta { min-height: 70svh; }
   .lp-why-grid { grid-template-columns: 1fr; }
+  .lp-cta { min-height: 70svh; }
 }

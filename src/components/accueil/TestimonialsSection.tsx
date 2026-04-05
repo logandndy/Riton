@@ -68,7 +68,8 @@ function Stars() {
   );
 }
 
-type T = typeof TESTIMONIALS[0];
+type Category = keyof typeof CAT;
+type T = { quote: string; author: string; location: string; category: Category };
 
 function TestiCard({ quote, author, location, category, dupe }: T & { dupe?: boolean }) {
   const { label, href } = CAT[category];
