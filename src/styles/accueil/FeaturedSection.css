@@ -1,0 +1,169 @@
+/* ============================================================
+   FeaturedSection.css — Grille magazine produits phares
+   ============================================================ */
+
+.featured-products {
+  background: var(--color-cream);
+  padding-block: var(--spacing-6xl);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle grain */
+.featured-products::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* ── Container ───────────────────────────────────────────── */
+
+.featured-products-container {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--spacing-lg);
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .featured-products-container { padding-inline: var(--spacing-xl); }
+}
+
+/* ── Header éditorial ────────────────────────────────────── */
+
+.featured-products-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--spacing-xl);
+  margin-bottom: var(--spacing-4xl);
+  flex-wrap: wrap;
+}
+
+.featured-products-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.featured-products-pretitle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  font-family: var(--font-sans);
+  font-size: .65rem;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--color-red);
+}
+
+.featured-products-pretitle::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: var(--color-red);
+  opacity: .6;
+}
+
+.featured-products-title {
+  font-family: var(--font-serif);
+  font-size: var(--fs-display-md);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--color-black);
+  line-height: 1;
+}
+
+.featured-products-subtitle {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-light);
+  color: var(--color-gray-medium);
+  line-height: var(--line-height-relaxed);
+  max-width: 38ch;
+  text-align: right;
+}
+
+@media (max-width: 767px) {
+  .featured-products-subtitle { text-align: left; }
+}
+
+/* ── Grille — 2 puis 4 colonnes ──────────────────────────── */
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-4xl);
+}
+
+@media (min-width: 640px) {
+  .products-grid { gap: var(--spacing-xl); }
+}
+
+@media (min-width: 1024px) {
+  .products-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ── Force les cartes à la même hauteur dans la grille ───── */
+/* Le ratio carré est défini dans ProductCard.css             */
+
+/* ── CTA — bouton sans bug ───────────────────────────────── */
+
+.featured-view-all {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.featured-view-all-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: 1rem var(--spacing-3xl);
+  background: transparent;
+  color: var(--color-black);
+  font-family: var(--font-sans);
+  font-size: .75rem;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  border: 1.5px solid var(--color-gray-light);
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  /* Pas de overflow:hidden — évite le clipping de la flèche */
+  transition:
+    background .25s ease,
+    color .25s ease,
+    border-color .25s ease,
+    transform .3s var(--ease-out-expo),
+    box-shadow .3s ease;
+}
+
+/* Arrow — sibling de span, pas de pseudo ::before conflictuel */
+.featured-view-all-button::after {
+  content: '→';
+  font-size: 1em;
+  transition: transform .3s var(--ease-out-expo);
+  display: inline-block;
+}
+
+.featured-view-all-button:hover {
+  background: var(--color-black);
+  color: var(--color-white);
+  border-color: var(--color-black);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(26,15,8,.18);
+}
+
+.featured-view-all-button:hover::after {
+  transform: translateX(7px);
+}
+
+.featured-view-all-button:active {
+  transform: translateY(0);
+}

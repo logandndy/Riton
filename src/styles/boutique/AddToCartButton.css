@@ -1,0 +1,66 @@
+/* ============================================================
+   AddToCartButton.css — Ajout panier fiche produit
+   ============================================================ */
+
+.product-quantity-cart {
+  margin-block: var(--spacing-2xl);
+}
+
+.product-add-to-cart-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  width: 100%;
+  height: 56px;
+  padding-inline: var(--spacing-3xl);
+  background: var(--color-red);
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: .82rem;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition:
+    background var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+/* Shimmer on hover */
+.product-add-to-cart-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
+  transform: skewX(-20deg);
+  transition: left var(--transition-base);
+}
+
+.product-add-to-cart-btn:hover:not(:disabled) {
+  background: var(--color-red-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(139,26,47,.35);
+}
+
+.product-add-to-cart-btn:hover:not(:disabled)::before {
+  left: 160%;
+}
+
+.product-add-to-cart-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Confirmed state */
+.product-add-to-cart-btn:disabled {
+  background: #2d6a4f;
+  cursor: default;
+  box-shadow: 0 4px 16px rgba(45,106,79,.30);
+}

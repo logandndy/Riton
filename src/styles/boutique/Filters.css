@@ -1,0 +1,191 @@
+/* ============================================================
+   Filters.css — Barre de filtres horizontale
+   Design : légère, sticky, pills de tri + inputs prix inline
+   ============================================================ */
+
+.boutique-filters-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-pale);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── Label ───────────────────────────────────────────────── */
+
+.filters-label {
+  font-family: var(--font-sans);
+  font-size: .6rem;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: .20em;
+  text-transform: uppercase;
+  color: var(--color-gray-medium);
+  white-space: nowrap;
+}
+
+/* ── Group ───────────────────────────────────────────────── */
+
+.filters-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  flex-shrink: 0;
+}
+
+/* ── Séparateur vertical ─────────────────────────────────── */
+
+.filters-sep {
+  display: none;
+  width: 1px;
+  height: 24px;
+  background: var(--color-gray-pale);
+  flex-shrink: 0;
+}
+
+@media (min-width: 640px) {
+  .filters-sep { display: block; }
+}
+
+/* ── Sort pills ──────────────────────────────────────────── */
+
+.filters-sort-pills {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.filter-pill {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding-inline: var(--spacing-lg);
+  background: transparent;
+  border: 1.5px solid var(--color-gray-pale);
+  border-radius: var(--radius-full);
+  font-family: var(--font-sans);
+  font-size: .7rem;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: .06em;
+  color: var(--color-gray-medium);
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.filter-pill:hover {
+  border-color: var(--color-gray-light);
+  color: var(--color-black);
+}
+
+.filter-pill.is-active {
+  background: var(--color-black);
+  border-color: var(--color-black);
+  color: var(--color-white);
+  box-shadow: 0 2px 8px rgba(26,15,8,.18);
+}
+
+/* ── Price range ─────────────────────────────────────────── */
+
+.filters-price-range {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.filter-price-input {
+  width: 64px;
+  height: 32px;
+  padding-inline: var(--spacing-md);
+  background: var(--color-white-off);
+  border: 1.5px solid var(--color-gray-pale);
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: .78rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-black);
+  text-align: center;
+  outline: none;
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.filter-price-input:focus {
+  background: var(--color-white);
+  border-color: var(--color-red);
+  box-shadow: 0 0 0 3px rgba(139,26,47,.10);
+}
+
+.filter-price-input::placeholder {
+  color: var(--color-gray-light);
+  font-style: italic;
+}
+
+.filters-price-dash {
+  font-family: var(--font-sans);
+  font-size: .8rem;
+  color: var(--color-gray-light);
+  user-select: none;
+}
+
+.filters-price-unit {
+  font-family: var(--font-sans);
+  font-size: .72rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-medium);
+}
+
+/* ── Reset button ────────────────────────────────────────── */
+
+.filters-reset {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  height: 32px;
+  padding-inline: var(--spacing-lg);
+  background: var(--color-red-pale);
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-full);
+  font-family: var(--font-sans);
+  font-size: .7rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-red);
+  cursor: pointer;
+  margin-left: auto;
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.filters-reset:hover {
+  background: var(--color-red);
+  color: var(--color-white);
+}
+
+.filters-active-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background: var(--color-red);
+  color: #fff;
+  font-size: .6rem;
+  font-weight: var(--font-weight-bold);
+  border-radius: 50%;
+  line-height: 1;
+  transition: background var(--transition-fast);
+}
+
+.filters-reset:hover .filters-active-badge {
+  background: rgba(255,255,255,.30);
+}

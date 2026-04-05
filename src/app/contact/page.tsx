@@ -1,9 +1,11 @@
+import type { Metadata } from 'next';
+import ContactPage from '../../components/contact/ContactPage';
+
+export const metadata: Metadata = {
+  title: 'Contact',
+  description: 'Contactez Riton pour toute question sur nos produits, vos commandes ou un partenariat.',
+};
+
 export default function Contact() {
-  return (
-    <div className="page">
-      <h1>Contact</h1>
-      <p>Pour toute question, contactez-nous à contact@riton.fr</p>
-      <p>Ou visitez-nous à la Halle aux Grains, Foix.</p>
-    </div>
-  );
+  return <ContactPage />;
 }

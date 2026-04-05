@@ -1,0 +1,276 @@
+/* ============================================================
+   NewsletterSection.css — Split éditorial photo + formulaire
+   ============================================================ */
+
+.nl-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  position: relative;
+  overflow: hidden;
+  min-height: 520px;
+}
+
+@media (min-width: 1024px) {
+  .nl-section {
+    grid-template-columns: 55fr 45fr;
+    min-height: 560px;
+  }
+}
+
+/* ── Left — texte ─────────────────────────────────────────── */
+
+.nl-content {
+  background: var(--color-charcoal);
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-5xl) var(--spacing-lg);
+  position: relative;
+  z-index: 1;
+}
+
+/* Grain texture */
+.nl-content::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* Radial glow */
+.nl-content::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 80% at 0% 60%, rgba(139,26,47,.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .nl-content { padding: var(--spacing-5xl) var(--spacing-xl); }
+}
+
+@media (min-width: 1024px) {
+  .nl-content { padding: var(--spacing-5xl) var(--spacing-5xl); }
+}
+
+.nl-inner {
+  width: 100%;
+  max-width: 520px;
+  margin-inline: auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Kicker ──────────────────────────────────────────────── */
+
+.nl-kicker {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: .62rem;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--color-red-accent);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* ── Title ───────────────────────────────────────────────── */
+
+.nl-title {
+  font-family: var(--font-serif);
+  font-size: var(--fs-display-lg);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--color-white);
+  line-height: 1;
+  margin-bottom: var(--spacing-xl);
+}
+
+.nl-title em {
+  font-style: italic;
+  color: var(--color-red-accent);
+}
+
+@media (max-width: 1023px) {
+  .nl-title { font-size: var(--fs-display-md); }
+}
+
+/* ── Subtitle ────────────────────────────────────────────── */
+
+.nl-subtitle {
+  font-family: var(--font-serif);
+  font-size: .9375rem;
+  color: rgba(250,250,245,.55);
+  line-height: var(--line-height-relaxed);
+  max-width: 40ch;
+  margin-bottom: var(--spacing-xl);
+}
+
+/* ── Promises ────────────────────────────────────────────── */
+
+.nl-promises {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-3xl);
+}
+
+.nl-promise {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-family: var(--font-sans);
+  font-size: .72rem;
+  color: rgba(250,250,245,.42);
+  letter-spacing: .02em;
+}
+
+.nl-promise-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-red);
+  opacity: .7;
+  flex-shrink: 0;
+}
+
+/* ── Form ────────────────────────────────────────────────── */
+
+.nl-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.nl-input-group {
+  display: flex;
+  align-items: stretch;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  transition: border-color .25s ease, background .25s ease;
+}
+
+.nl-input-group:focus-within {
+  border-color: rgba(139,26,47,.60);
+  background: rgba(255,255,255,.09);
+}
+
+.nl-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: .9rem var(--spacing-xl);
+  font-family: var(--font-serif);
+  font-size: .9375rem;
+  color: var(--color-white);
+  min-width: 0;
+}
+
+.nl-input::placeholder {
+  color: rgba(250,250,245,.28);
+  font-style: italic;
+}
+
+.nl-submit {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .9rem var(--spacing-xl);
+  background: var(--color-red);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: .7rem;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 0 var(--radius-full) var(--radius-full) 0;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition:
+    background var(--transition-fast),
+    gap var(--transition-fast);
+}
+
+.nl-submit svg {
+  transition: transform .3s var(--ease-out-expo);
+}
+
+.nl-submit:hover {
+  background: var(--color-red-dark);
+  gap: .65rem;
+}
+
+.nl-submit:hover svg {
+  transform: translateX(3px);
+}
+
+.nl-legal {
+  font-size: .62rem;
+  color: rgba(250,250,245,.22);
+  letter-spacing: .04em;
+  line-height: 1.6;
+}
+
+/* ── Right — photo ────────────────────────────────────────── */
+
+.nl-visual {
+  position: relative;
+  min-height: 320px;
+  overflow: hidden;
+}
+
+@media (max-width: 1023px) {
+  .nl-visual { display: none; }
+}
+
+.nl-visual-img {
+  object-fit: cover;
+  object-position: center;
+}
+
+.nl-visual-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(105deg, rgba(45,30,18,.85) 0%, rgba(45,30,18,.30) 40%, rgba(45,30,18,.10) 100%),
+    linear-gradient(to bottom, rgba(45,30,18,.20) 0%, rgba(45,30,18,.45) 100%);
+}
+
+/* Floating quote card */
+.nl-visual-badge {
+  position: absolute;
+  bottom: var(--spacing-3xl);
+  left: var(--spacing-3xl);
+  right: var(--spacing-3xl);
+  background: rgba(26,15,8,.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl) var(--spacing-2xl);
+}
+
+.nl-visual-quote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: .9375rem;
+  color: rgba(250,250,245,.88);
+  line-height: var(--line-height-relaxed);
+  margin: 0 0 var(--spacing-sm);
+}
+
+.nl-visual-author {
+  font-family: var(--font-sans);
+  font-size: .62rem;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--color-red-accent);
+}

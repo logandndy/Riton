@@ -1,0 +1,63 @@
+/* ============================================================
+   PromoBanner.css — Bandeau animé en haut de page
+   ============================================================ */
+
+.promo-banner {
+  width: 100%;
+  height: var(--promo-h);
+  background: var(--color-black);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: var(--z-sticky);
+}
+
+.promo-banner::before,
+.promo-banner::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.promo-banner::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--color-black), transparent);
+}
+
+.promo-banner::after {
+  right: 0;
+  background: linear-gradient(-90deg, var(--color-black), transparent);
+}
+
+.promo-banner-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+  will-change: transform;
+}
+
+.promo-banner-track:hover {
+  animation-play-state: paused;
+}
+
+.promo-banner-item {
+  font-family: var(--font-sans);
+  font-size: .72rem;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-wider);
+  text-transform: uppercase;
+  color: var(--color-parchment);
+  white-space: nowrap;
+  padding-inline: var(--spacing-xl);
+}
+
+.promo-banner-sep {
+  color: var(--color-red);
+  margin-inline: var(--spacing-xs);
+}

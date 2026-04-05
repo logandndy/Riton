@@ -1,14 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import type { Product } from '../lib/stripe';
 
-export interface Product {
-  id: string;
-  name: string;
-  description?: string | null;
-  price: number;
-  images: string[];
-  metadata: Record<string, string>;
-}
+export type { Product };
 
 export interface CartItem {
   product: Product;
@@ -33,45 +27,52 @@ export const useCartStore = create<CartState>()(
     (set, get) => ({
       items: [],
       isCartOpen: false,
+
       addItem: (product) => {
         const items = get().items;
-        const existingItem = items.find(item => item.product.id === product.id);
-        if (existingItem) {
-          existingItem.quantity += 1;
-          set({ items: [...items] });
+        const existingIndex = items.findIndex(item => item.product.id === product.id);
+        if (existingIndex >= 0) {
+          const updated = items.map((item, i) =>
+            i === existingIndex
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
+          );
+          set({ items: updated, isCartOpen: true });
         } else {
-          set({ items: [...items, { product, quantity: 1 }] });
+          set({ items: [...items, { product, quantity: 1 }], isCartOpen: true });
         }
-        set({ isCartOpen: true });
       },
+
       removeItem: (productId) => {
         set({ items: get().items.filter(item => item.product.id !== productId) });
       },
+
       updateQuantity: (productId, quantity) => {
         if (quantity <= 0) {
           get().removeItem(productId);
           return;
         }
-        const items = get().items;
-        const item = items.find(item => item.product.id === productId);
-        if (item) {
-          item.quantity = quantity;
-          set({ items: [...items] });
-        }
+        set({
+          items: get().items.map(item =>
+            item.product.id === productId ? { ...item, quantity } : item
+          ),
+        });
       },
+
       clearCart: () => set({ items: [] }),
-      getTotal: () => {
-        return get().items.reduce((total, item) => total + item.product.price * item.quantity, 0);
-      },
-      getItemCount: () => {
-        return get().items.reduce((count, item) => count + item.quantity, 0);
-      },
+
+      getTotal: () =>
+        get().items.reduce((total, item) => total + item.product.price * item.quantity, 0),
+
+      getItemCount: () =>
+        get().items.reduce((count, item) => count + item.quantity, 0),
+
       openCart: () => set({ isCartOpen: true }),
       closeCart: () => set({ isCartOpen: false }),
     }),
     {
-      name: 'cart-storage',
-      partialize: (state) => ({ items: state.items }), // Ne pas persister isCartOpen
+      name: 'riton-cart',
+      partialize: (state) => ({ items: state.items }),
     }
   )
 );

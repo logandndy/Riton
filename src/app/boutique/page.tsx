@@ -1,68 +1,30 @@
-'use client';
+import type { Metadata } from 'next';
+import { getProducts } from '../../lib/stripe';
+import CategoryPageLayout from '../../components/boutique/CategoryPageLayout';
+import MarketCta from '../../components/shared/MarketCta';
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { getProducts, getCategories, Product } from '../../lib/stripe';
-import Filters, { FilterOptions } from '../../components/Filters';
+export const metadata: Metadata = {
+  title: 'Boutique',
+  description: 'Toute la charcuterie et les fromages artisanaux de Riton. Filtrez par prix, triez et commandez en ligne.',
+};
 
-export default function Boutique() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
+const BOUTIQUE_BG = 'https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=1920&q=80';
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const allProducts = await getProducts();
-      setProducts(allProducts);
-      setFilteredProducts(allProducts);
-      setCategories(getCategories(allProducts));
-    };
-    fetchProducts();
-  }, []);
-
-  const applyFilters = (filters: FilterOptions) => {
-    let filtered = products;
-
-    // Filtre par catégorie
-    if (filters.category) {
-      filtered = filtered.filter(p => p.metadata.categorie === filters.category);
-    }
-
-    // Filtre par prix
-    filtered = filtered.filter(p => p.price >= filters.priceRange[0] && p.price <= filters.priceRange[1]);
-
-    // Tri
-    if (filters.sortBy === 'name') {
-      filtered.sort((a, b) => a.name.localeCompare(b.name));
-    } else if (filters.sortBy === 'price-asc') {
-      filtered.sort((a, b) => a.price - b.price);
-    } else if (filters.sortBy === 'price-desc') {
-      filtered.sort((a, b) => b.price - a.price);
-    }
-
-    setFilteredProducts(filtered);
-  };
+export default async function BoutiquePage() {
+  const products = await getProducts();
 
   return (
-    <div className="boutique">
-      <h1>Tous nos produits</h1>
-      <Filters categories={categories} onFilterChange={applyFilters} />
-      <div className="products-grid">
-        {filteredProducts.map(product => (
-          <div key={product.id} className="product-card">
-            {product.images && product.images[0] && (
-              <Image src={product.images[0]} alt={product.name} width={250} height={200} />
-            )}
-            <h3>{product.name}</h3>
-            {product.description && <p>{product.description}</p>}
-            <p className="price">{product.price} €</p>
-            <Link href={`/boutique/${product.id}`} className="product-link">
-              Voir le produit
-            </Link>
-          </div>
-        ))}
-      </div>
-    </div>
+    <CategoryPageLayout
+      heroVariant="boutique"
+      heroPretitle="Produits artisanaux"
+      heroTitle="La Boutique"
+      heroSubtitle="Charcuteries, fromages et spécialités ariégeoises — tout est fait à la main, sélectionné avec soin, livré frais."
+      heroBgImage={BOUTIQUE_BG}
+      pageLabel="Toute la sélection"
+      products={products}
+      productNoun="produit"
+      tagline="Élevés et transformés en Ariège · Livrés sous 48h"
+      cta={<MarketCta />}
+    />
   );
 }

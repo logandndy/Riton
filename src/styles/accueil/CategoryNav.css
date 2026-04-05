@@ -1,0 +1,226 @@
+/* ============================================================
+   CategoryNav.css — Deux panels plein-hauteur photographiques
+   Design : full-bleed photo, dark overlay, text reveal
+   ============================================================ */
+
+.category-nav {
+  background: var(--color-black);
+}
+
+/* ── Grid : 2 panels côte à côte ─────────────────────────── */
+
+.category-nav-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .category-nav-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── Card : panel plein-hauteur photo ────────────────────── */
+
+.category-card {
+  display: block;
+  position: relative;
+  min-height: 70svh;
+  overflow: hidden;
+  text-decoration: none;
+  cursor: pointer;
+  /* Background photo set via inline style on .category-card-media */
+}
+
+@media (min-width: 768px) {
+  .category-card { min-height: 85svh; }
+}
+
+/* Separator */
+.category-card:first-child {
+  border-right: 1px solid rgba(0,0,0,.3);
+}
+
+@media (max-width: 767px) {
+  .category-card:first-child { border-right: none; border-bottom: 1px solid rgba(0,0,0,.3); }
+}
+
+/* ── Media : background image ────────────────────────────── */
+
+.category-card-media {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--color-charcoal);
+  transition: transform .9s var(--ease-out-expo);
+  will-change: transform;
+}
+
+/* Dark overlay — gradient to bottom */
+.category-card-media::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top,
+      rgba(6,5,4,.92) 0%,
+      rgba(6,5,4,.55) 45%,
+      rgba(6,5,4,.20) 75%,
+      rgba(6,5,4,.10) 100%
+    );
+  z-index: 1;
+}
+
+/* Colour tint on hover */
+.category-card-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(139,26,47,.08);
+  opacity: 0;
+  transition: opacity .5s ease;
+  z-index: 1;
+}
+
+.category-card:hover .category-card-media {
+  transform: scale(1.06);
+}
+
+.category-card:hover .category-card-media::after {
+  opacity: 1;
+}
+
+/* ── Watermark title ─────────────────────────────────────── */
+
+.category-card-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-serif);
+  font-size: clamp(5rem, 14vw, 13rem);
+  font-weight: var(--font-weight-bold);
+  color: rgba(255,255,255,.07);
+  letter-spacing: -.04em;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 2;
+  transition: opacity .6s ease, transform .8s var(--ease-out-expo);
+}
+
+.category-card:hover .category-card-watermark {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1.12);
+}
+
+/* ── Body : overlay at bottom ────────────────────────────── */
+
+.category-card-body {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: var(--spacing-3xl) var(--spacing-3xl) var(--spacing-4xl);
+  z-index: 4;
+}
+
+.category-card-tagline {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: .62rem;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--color-red-accent);
+  margin-bottom: var(--spacing-sm);
+}
+
+.category-card-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--color-white);
+  line-height: 1;
+  margin-bottom: 0;
+  text-shadow: 0 4px 30px rgba(0,0,0,.4);
+}
+
+/* ── Reveal content on hover ─────────────────────────────── */
+
+.category-card-reveal {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition:
+    max-height .6s var(--ease-out-expo),
+    opacity .5s ease;
+}
+
+.category-card:hover .category-card-reveal {
+  max-height: 320px;
+  opacity: 1;
+}
+
+.category-card-description {
+  font-family: var(--font-serif);
+  font-size: .9375rem;
+  color: rgba(250,250,245,.72);
+  line-height: var(--line-height-relaxed);
+  margin-top: var(--spacing-xl);
+  margin-bottom: var(--spacing-xl);
+}
+
+.category-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-xl);
+}
+
+.category-card-tag {
+  padding: .3rem .8rem;
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.15);
+  color: rgba(250,250,245,.75);
+  font-family: var(--font-sans);
+  font-size: .6rem;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  border-radius: var(--radius-full);
+  transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.category-card:hover .category-card-tag {
+  background: rgba(139,26,47,.20);
+  border-color: rgba(139,26,47,.40);
+  color: var(--color-red-accent);
+}
+
+.category-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  font-family: var(--font-sans);
+  font-size: .72rem;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--color-white);
+}
+
+.category-card-arrow {
+  display: inline-block;
+  transition: transform .4s var(--ease-out-expo);
+}
+
+.category-card:hover .category-card-arrow { transform: translateX(8px); }
+
+/* ── Mobile: show reveal always ──────────────────────────── */
+
+@media (hover: none) {
+  .category-card { min-height: 60svh; }
+  .category-card-reveal {
+    max-height: none;
+    opacity: 1;
+  }
+}

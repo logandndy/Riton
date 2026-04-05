@@ -1,0 +1,99 @@
+/* ============================================================
+   ProductListShell.css — Layout boutique pleine largeur
+   (Les filtres sont maintenant une barre horizontale)
+   ============================================================ */
+
+/* ── Boutique container — colonne unique ─────────────────── */
+
+.boutique-container {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--spacing-lg);
+  padding-block: var(--spacing-4xl) var(--spacing-6xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xl);
+}
+
+@media (min-width: 768px) {
+  .boutique-container { padding-inline: var(--spacing-xl); }
+}
+
+/* ── Products panel ──────────────────────────────────────── */
+
+.boutique-products {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xl);
+}
+
+/* ── Top bar ─────────────────────────────────────────────── */
+
+.products-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-gray-pale);
+}
+
+.products-count {
+  font-family: var(--font-sans);
+  font-size: .78rem;
+  color: var(--color-gray-medium);
+  letter-spacing: .03em;
+}
+
+.products-count-number {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-black);
+  font-size: .88rem;
+}
+
+.products-count-page {
+  color: var(--color-gray-light);
+}
+
+/* ── Product grid — 2 → 3 → 4 colonnes ──────────────────── */
+
+.products-listing {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-lg);
+}
+
+@media (min-width: 640px) {
+  .products-listing { gap: var(--spacing-xl); }
+}
+
+@media (min-width: 900px) {
+  .products-listing { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 1280px) {
+  .products-listing { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ── Empty state ─────────────────────────────────────────── */
+
+.products-empty {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-block: var(--spacing-6xl);
+  gap: var(--spacing-lg);
+}
+
+.products-empty-title {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-black);
+}
+
+.products-empty-message {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-medium);
+}
