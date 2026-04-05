@@ -1,22 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Riton - Front-end E-commerce
 
-## Getting Started
+Site e-commerce pour Riton, spécialisé dans la charcuterie et les fromages artisanaux premium.
 
-First, run the development server:
+## Stack Technique
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Framework** : Next.js 16 (App Router)
+- **Langage** : TypeScript
+- **Style** : CSS pur
+- **Panier** : Zustand avec persist
+- **Paiement** : Stripe Checkout (headless)
+- **Back-end** : API Stripe pour les produits
+
+## Fonctionnalités
+
+- Navbar premium avec catégories et badge panier dynamique
+- Pages boutique avec filtres (catégorie, prix, tri)
+- Fiches produits avec ajout au panier
+- CartSlideOver (tiroir latéral)
+- Pages légales (CGV, confidentialité, etc.)
+- Design rouge/noir élégant et authentique
+
+## Installation
+
+1. Cloner le repo :
+   ```bash
+   git clone https://github.com/logandndy/Riton.git
+   cd Riton
+   ```
+
+2. Installer les dépendances :
+   ```bash
+   npm install
+   ```
+
+3. Configurer les variables d'environnement :
+   Créer un fichier `.env.local` avec :
+   ```
+   STRIPE_SECRET_KEY=votre_clé_secrète_stripe
+   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=votre_clé_publique_stripe
+   ```
+
+4. Lancer le serveur de développement :
+   ```bash
+   npm run dev
+   ```
+
+Ouvrir [http://localhost:3000](http://localhost:3000) pour voir le site.
+
+## Structure du Projet
+
+```
+src/
+├── app/                 # Pages Next.js
+│   ├── boutique/        # Boutique et catégories
+│   ├── panier/          # Page panier
+│   └── ...
+├── components/          # Composants réutilisables
+├── lib/                 # Utilitaires (Stripe)
+└── store/               # Store Zustand
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Déploiement
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Le projet est prêt pour le déploiement sur Vercel, Netlify ou tout autre plateforme supportant Next.js.
+
+## Copywriting
+
+Le site utilise un copywriting chaleureux, authentique et rassurant, mettant en avant la qualité artisanale et le terroir ariégeois.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
