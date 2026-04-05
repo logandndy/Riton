@@ -302,24 +302,24 @@
   }
 
   /* Contact page */
-  .contact-split-visual {
+  .cp-editorial {
     animation: fadeInLeft .9s var(--ease-out-expo) both;
     animation-timeline: view();
     animation-range: entry 0% entry 55%;
   }
-  .contact-split-form {
+  .cp-form-panel {
     animation: fadeInRight .9s var(--ease-out-expo) .1s both;
     animation-timeline: view();
     animation-range: entry 0% entry 55%;
   }
 
   /* Location page */
-  .location-info-main {
+  .lp-address-content {
     animation: fadeInLeft .9s var(--ease-out-expo) both;
     animation-timeline: view();
     animation-range: entry 0% entry 55%;
   }
-  .location-info-side {
+  .lp-address-photo {
     animation: fadeInRight .9s var(--ease-out-expo) .1s both;
     animation-timeline: view();
     animation-range: entry 0% entry 55%;
